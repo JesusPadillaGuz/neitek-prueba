@@ -1,0 +1,100 @@
+﻿@page "/metas"
+<div class="row">
+    <div class="col-sm-4">
+        <h3>metas</h3>
+        <Button Color="Color.Primary" @onclick="@(() =>ShowModal(false,emptyMetas))" class="mb-2">
+            <Icon Name="IconName.PlusSquare" />
+            Nueva meta
+        </Button>
+        @if (listaMetas == null)
+        {
+            <p><em>Cargando...</em></p>
+        }
+        else
+        {
+           
+            
+            @foreach (var item in listaMetas.Select((meta, index) => (meta, index)))
+            {
+                <div class="card" @onclick="@(() =>GetTareasPorMeta(item.meta.ID))">
+                    <div class="card-body">
+                        <h6 class="card-title" style="font-weight: bold;">@item.meta.Nombre</h6>
+                        <Button @onclick="@(() =>ShowModal(true,item.meta))" style="float:right">
+                            <Icon Name="IconName.Pen" />
+                        </Button>
+                        <Button @onclick="@(() =>ShowModalEliminar(item.meta.ID,item.meta.Nombre))" style="float:right">
+                            <Icon Name="IconName.Delete" />
+                        </Button>
+                        <p class="card-text">Fecha Creada: @item.meta.FechaCreacion.ToString("dd/MM/yyyy")</p>
+                        <br />
+                        <p class="card-text" style="font-size: small">Tareas Completadas: </p>
+                        @*<Progress Value="@porcentajes[item.index]" />*@
+                        <p style="float: right;"> @porcentajes[item.index] %</p>
+                    </div>
+                </div>
+            }
+
+
+        }
+    </div>
+    <div class="col-sm-8">
+        @*child content*@
+        @if (mostrarTareas)
+        {
+            <CascadingValue Value="@metaSeleccionada">
+                <TareasControl>
+                </TareasControl>
+            </CascadingValue>
+        }
+
+    </div>
+</div>
+
+<Modal @ref="ModalMetaNueva">
+    <ModalContent IsCentered="true">
+        <EditForm Model="@metasModal">
+            <ModalHeader>
+                <ModalTitle>@titleModal</ModalTitle>
+                <Button @onclick="@HideModal">
+                    <Icon Name="IconName.Times" />
+                </Button>
+            </ModalHeader>
+           
+                <ModalBody>
+                    <div>
+                        <label>Nombre:</label>
+                        <InputText id="name" @bind-Value="metasModal.Nombre" />
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button Color="Color.Primary" Clicked="@(() =>AgregarMeta(metasModal))">Aceptar</Button>
+                    <Button Color="Color.Secondary" Clicked="@HideModal">Cerrar</Button>
+                </ModalFooter>
+        </EditForm>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="ModalEliminarMeta">
+    <ModalContent IsCentered="true">
+        <EditForm Model="@eliminarMetasModal">
+            <ModalHeader>
+                <ModalTitle>Eliminar Meta</ModalTitle>
+                <Button @onclick="@HideModalEliminar">
+                    <Icon Name="IconName.Times" />
+                </Button>
+            </ModalHeader>
+
+            <ModalBody>
+                <div>
+                    <h5>¿Estas seguro?</h5>
+                    <label>Que desea eliminar el elemento @eliminarMetasModal.Nombre</label>
+                    
+                </div>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Primary" Clicked="@(() =>EliminarMeta(eliminarMetasModal))">Aceptar</Button>
+                <Button Color="Color.Secondary" Clicked="@HideModalEliminar">Cerrar</Button>
+            </ModalFooter>
+        </EditForm>
+    </ModalContent>
+</Modal>

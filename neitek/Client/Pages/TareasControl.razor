@@ -1,0 +1,135 @@
+﻿
+<div class="" style="width:100%; margin-bottom:10vh">
+    <h1>@TitlePage</h1>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <Button Color="Color.Primary" @onclick="@(() =>ShowModal(false,emptyTareas))">
+            <Icon Name="IconName.PlusCircle" />
+            Agregar Tarea
+        </Button>
+        @if (tareasAEliminar.Count() > 0)
+        {
+            <Button Color="Color.Primary" @onclick="@CompletarTareas">
+                <Icon Name="IconName.CheckCircle" />
+                Completar Tarea
+            </Button>
+        }
+            @if (tareasAEliminar.Count() == 1)
+            {
+                <Button Color="Color.Primary" @onclick="@(() =>ShowModal(true, (from f in listaTareas where f.ID==tareasAEliminar.FirstOrDefault() select f).FirstOrDefault()))">
+                    <Icon Name="IconName.Pen" />
+                    Editar
+                </Button>
+            }
+
+            @if (tareasAEliminar.Count() > 0)
+            {
+                <Button Color="Color.Primary" @onclick="@ShowModalEliminar">
+                    <Icon Name="IconName.Delete" />
+                    Eliminar
+                </Button>
+            }
+
+        </div>
+    @if (listaTareas == null)
+    {
+        <p>Cargando...</p>
+    }
+    else
+    {
+
+        <div class="card">
+            <Table class="table table is-hoverable" Striped="true">
+                <TableHeader ThemeContrast="ThemeContrast.Light">
+                    <TableHeaderCell></TableHeaderCell>
+                    <TableHeaderCell></TableHeaderCell>
+                    <TableHeaderCell>Tarea <br /> <input class="input" type="text" @oninput="(EventArgs) => { FilterByTask(EventArgs.Value.ToString()); }" /></TableHeaderCell>
+                    <TableHeaderCell>Fecha <br /><input class="input" type="text" @oninput="(EventArgs) => { FilterByDate(EventArgs.Value.ToString()); }" /></TableHeaderCell>
+                    <TableHeaderCell>Estado <br /> <input class="input" type="text" @oninput="(EventArgs) => { FilterByStatus(EventArgs.Value.ToString()); }" /></TableHeaderCell>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var tarea in filterTareas)
+                    {
+                        <TableRow>
+                            @*<TableRowCell> <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(tarea, eventArgs.Value); }" /></TableRowCell>*@
+                            <TableRowCell> <input type="checkbox"  @onclick="@(() =>deleteTareasID(tarea.ID))"/></TableRowCell>
+                            <TableRowCell>
+                                @if (tarea.Importante)
+                                {
+                                    <Icon Name="IconName.Star" TextColor="TextColor.Warning" />
+                                }
+                                else
+                                {
+                                    <Icon Name="IconName.Star" TextColor="TextColor.Secondary" />
+                                }
+                            </TableRowCell>
+                            <TableRowCell> @tarea.Nombre </TableRowCell>
+                            <TableRowCell>  @tarea.FechaCreacion</TableRowCell>
+                            @if (tarea.Status == true)
+                            {
+                                <TableRowCell> Completada</TableRowCell>
+                            }
+                            else
+                            {
+                                <TableRowCell> Abierta</TableRowCell>
+                            }
+
+
+                        </TableRow>
+                    }
+                </TableBody>
+            </Table>
+        </div>
+
+
+        <Modal @ref="ModalTareaNueva">
+            <ModalContent IsCentered="true">
+                <EditForm Model="@tareasModal">
+                    <ModalHeader>
+                        <ModalTitle>@titleModal</ModalTitle>
+                        <Button @onclick="@HideModal">
+                            <Icon Name="IconName.Times" />
+                        </Button>
+                    </ModalHeader>
+
+                    <ModalBody>
+                        <div>
+                            <label>Nombre:</label>
+                            <InputText id="name" @bind-Value="tareasModal.Nombre" />
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button Color="Color.Primary" Clicked="@(() =>AgregarTarea(tareasModal))">Aceptar</Button>
+                        <Button Color="Color.Secondary" Clicked="@HideModal">Cerrar</Button>
+                    </ModalFooter>
+                </EditForm>
+            </ModalContent>
+        </Modal>
+
+        <Modal @ref="ModalEliminarTarea">
+            <ModalContent IsCentered="true">
+                <EditForm Model="@eliminarTareaModal">
+                    <ModalHeader>
+                        <ModalTitle>Eliminar Tarea</ModalTitle>
+                        <Button @onclick="@HideModalEliminar">
+                            <Icon Name="IconName.Times" />
+                        </Button>
+                    </ModalHeader>
+
+                    <ModalBody>
+                        <div>
+                            <h5>¿Estas seguro?</h5>
+                            <label>Que desea eliminar @tareasAEliminar.Count() tareas</label>
+
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button Color="Color.Primary" Clicked="@(() =>EliminarTarea())">Aceptar</Button>
+                        <Button Color="Color.Secondary" Clicked="@HideModalEliminar">Cerrar</Button>
+                    </ModalFooter>
+                </EditForm>
+            </ModalContent>
+        </Modal>
+    }
+
+
+</div>

@@ -1,0 +1,12 @@
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\bin\Debug\net5.0\neitek.Shared.deps.json
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\bin\Debug\net5.0\neitek.Shared.dll
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\bin\Debug\net5.0\ref\neitek.Shared.dll
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\bin\Debug\net5.0\neitek.Shared.pdb
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.csproj.AssemblyReference.cache
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.AssemblyInfoInputs.cache
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.AssemblyInfo.cs
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.dll
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\ref\neitek.Shared.dll
+C:\Users\Usuario\source\repos\neitek\neitek\Shared\obj\Debug\net5.0\neitek.Shared.pdb
