@@ -32,6 +32,7 @@
       "Microsoft.Extensions.Primitives.dll": "sha256-f2PgoftqEkKRuuiAk6S1MHygOuqZBHzB0HOB3vR93TU=",
       "Microsoft.JSInterop.dll": "sha256-1pTA0jNmI3yFlUcra3ChlWUZgNtrO8f9SBk369sCfhQ=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-82WpISDbT05plFV\/m3Glhh8w1jttcRp+pgJDwKwl7Q0=",
+      "Newtonsoft.Json.dll": "sha256-jB3VwYS04ufq0Glx\/z68tGeDvpciktHesQYXRDabTYA=",
       "System.IO.Pipelines.dll": "sha256-3ET+mpR7F058YRj9YaLHOVXBqOW6iUxtIpeiKPYw4PA=",
       "Microsoft.CSharp.dll": "sha256-470oOFeTcRuThu3PEDt5u3Q4LZR0TiwPY8yHWlK+L0M=",
       "Microsoft.VisualBasic.Core.dll": "sha256-KqB1i7FCaZd3eTSAlNF7cOaUu+BkIp+gAjvFezBQmBI=",
@@ -198,13 +199,13 @@
       "mscorlib.dll": "sha256-0qsbc1acYr3S6P7t9gSYyghOhMVs3CTJ9ukQ1VXqksY=",
       "netstandard.dll": "sha256-4Ejn1oHpeqmTQlJx7Kjuipn0ZVOoG0hGncN+9qyL1lo=",
       "System.Private.CoreLib.dll": "sha256-7n\/jioZu+\/2tD7v1RgjTTrBrviX+kVwPFGJ\/JBsHQGA=",
-      "neitek.Shared.dll": "sha256-qpRNGqTvctbr9Q+6pvw2rjwNfciNfdvmXTN8leM99Sw=",
-      "neitek.Client.dll": "sha256-LHFVIgP7RXkCXYOPcdbY+HN9h9Blxz3bDwr9MmXc6AI="
+      "neitek.Shared.dll": "sha256-ZWatSYLce64+MU7yiE5qH1agIFikaME35gTPJU+mfQY=",
+      "neitek.Client.dll": "sha256-SeJ6BCtZ9GxPDDfyhSl4nXAfdUR88ONBiKruJq\/MpNI="
     },
     "lazyAssembly": null,
     "pdb": {
-      "neitek.Shared.pdb": "sha256-\/5bsL778g1V7eqXt+bbnprMzpM5NKVyJpvZfapz5Kq0=",
-      "neitek.Client.pdb": "sha256-0KRlapwan+9xMRU5ipHKpaUmXJy2lr7rN4+pu+ioOlI="
+      "neitek.Shared.pdb": "sha256-v7DcltvLHrK3Z+daYAyft\/y\/SiA0korKzJ2bVRDAwlM=",
+      "neitek.Client.pdb": "sha256-+FjKmWjYwi01uMim2YoA4JY06nKH97retneUZMLUCog="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-Uv0JiOiPEvlGxygIhcdY8XYm\/Nt+zgVckKrqB2uih0w=",

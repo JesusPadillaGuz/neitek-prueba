@@ -47,35 +47,35 @@
                     <TableHeaderCell>Estado <br /> <input class="input" type="text" @oninput="(EventArgs) => { FilterByStatus(EventArgs.Value.ToString()); }" /></TableHeaderCell>
                 </TableHeader>
                 <TableBody>
-                    @foreach (var tarea in filterTareas)
-                    {
-                        <TableRow>
-                            @*<TableRowCell> <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(tarea, eventArgs.Value); }" /></TableRowCell>*@
-                            <TableRowCell> <input type="checkbox"  @onclick="@(() =>deleteTareasID(tarea.ID))"/></TableRowCell>
-                            <TableRowCell>
-                                @if (tarea.Importante)
+                    @foreach (var item in filterTareas.Select((tarea, index) => (tarea, index)))
+                        {
+                            <TableRow>
+                                @*<TableRowCell> <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(tarea, eventArgs.Value); }" /></TableRowCell>*@
+                                <TableRowCell> <input type="checkbox" @bind="@checkTareas[item.index]" @onclick="@(() =>deleteTareasID(item.tarea.ID))" /></TableRowCell>
+                                <TableRowCell>
+                                    @if (item.tarea.Importante)
+                                    {
+                                        <Icon Name="IconName.Star" Style="cursor:pointer;" TextColor="TextColor.Warning" @onclick="@(() =>ImportanteTarea(item.tarea.ID))" />
+                                    }
+                                    else
+                                    {
+                                        <Icon Name="IconName.Star" Style="cursor:pointer;" TextColor="TextColor.Secondary" @onclick="@(() =>ImportanteTarea(item.tarea.ID))"/>
+                                    }
+                                </TableRowCell>
+                                <TableRowCell> @item.tarea.Nombre </TableRowCell>
+                                <TableRowCell>  @item.tarea.FechaCreacion</TableRowCell>
+                                @if (item.tarea.Status == true)
                                 {
-                                    <Icon Name="IconName.Star" TextColor="TextColor.Warning" />
+                                    <TableRowCell TextColor="TextColor.Success"> Completada</TableRowCell>
                                 }
                                 else
                                 {
-                                    <Icon Name="IconName.Star" TextColor="TextColor.Secondary" />
+                                    <TableRowCell> Abierta</TableRowCell>
                                 }
-                            </TableRowCell>
-                            <TableRowCell> @tarea.Nombre </TableRowCell>
-                            <TableRowCell>  @tarea.FechaCreacion</TableRowCell>
-                            @if (tarea.Status == true)
-                            {
-                                <TableRowCell> Completada</TableRowCell>
-                            }
-                            else
-                            {
-                                <TableRowCell> Abierta</TableRowCell>
-                            }
 
 
-                        </TableRow>
-                    }
+                            </TableRow>
+                        }
                 </TableBody>
             </Table>
         </div>
@@ -83,7 +83,8 @@
 
         <Modal @ref="ModalTareaNueva">
             <ModalContent IsCentered="true">
-                <EditForm Model="@tareasModal">
+                <EditForm Model="@tareasModal" OnValidSubmit="@(() =>AgregarTarea(tareasModal))">
+                    <DataAnnotationsValidator />
                     <ModalHeader>
                         <ModalTitle>@titleModal</ModalTitle>
                         <Button @onclick="@HideModal">
@@ -95,10 +96,11 @@
                         <div>
                             <label>Nombre:</label>
                             <InputText id="name" @bind-Value="tareasModal.Nombre" />
+                            <ValidationMessage For="() =>tareasModal.Nombre"/>
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        <Button Color="Color.Primary" Clicked="@(() =>AgregarTarea(tareasModal))">Aceptar</Button>
+                        <Button Color="Color.Primary" Type="ButtonType.Submit">Aceptar</Button>
                         <Button Color="Color.Secondary" Clicked="@HideModal">Cerrar</Button>
                     </ModalFooter>
                 </EditForm>

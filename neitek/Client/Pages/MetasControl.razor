@@ -17,7 +17,7 @@
             @foreach (var item in listaMetas.Select((meta, index) => (meta, index)))
             {
                 <div class="card" @onclick="@(() =>GetTareasPorMeta(item.meta.ID))">
-                    <div class="card-body">
+                    <div class="card-body" style="cursor:pointer;">
                         <h6 class="card-title" style="font-weight: bold;">@item.meta.Nombre</h6>
                         <Button @onclick="@(() =>ShowModal(true,item.meta))" style="float:right">
                             <Icon Name="IconName.Pen" />
@@ -28,7 +28,9 @@
                         <p class="card-text">Fecha Creada: @item.meta.FechaCreacion.ToString("dd/MM/yyyy")</p>
                         <br />
                         <p class="card-text" style="font-size: small">Tareas Completadas: </p>
-                        @*<Progress Value="@porcentajes[item.index]" />*@
+                        <Progress>
+                            <ProgressBar Value="@porcentajes[item.index]" />
+                        </Progress>
                         <p style="float: right;"> @porcentajes[item.index] %</p>
                     </div>
                 </div>
@@ -42,7 +44,7 @@
         @if (mostrarTareas)
         {
             <CascadingValue Value="@metaSeleccionada">
-                <TareasControl>
+                <TareasControl OnClickCallback="@GetTareasRealizadas">
                 </TareasControl>
             </CascadingValue>
         }
@@ -52,24 +54,26 @@
 
 <Modal @ref="ModalMetaNueva">
     <ModalContent IsCentered="true">
-        <EditForm Model="@metasModal">
+        <EditForm Model="@metasModal" OnValidSubmit="@(() =>AgregarMeta(metasModal))">
+            <DataAnnotationsValidator />
             <ModalHeader>
                 <ModalTitle>@titleModal</ModalTitle>
                 <Button @onclick="@HideModal">
                     <Icon Name="IconName.Times" />
                 </Button>
             </ModalHeader>
-           
-                <ModalBody>
-                    <div>
-                        <label>Nombre:</label>
-                        <InputText id="name" @bind-Value="metasModal.Nombre" />
-                    </div>
-                </ModalBody>
-                <ModalFooter>
-                    <Button Color="Color.Primary" Clicked="@(() =>AgregarMeta(metasModal))">Aceptar</Button>
-                    <Button Color="Color.Secondary" Clicked="@HideModal">Cerrar</Button>
-                </ModalFooter>
+
+            <ModalBody>
+                <div>
+                    <label>Nombre:</label>
+                    <InputText id="name" @bind-Value="metasModal.Nombre" />
+                    <ValidationMessage For="() =>metasModal.Nombre" />
+                </div>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Primary" Type="ButtonType.Submit">Aceptar</Button>
+                <Button Color="Color.Secondary" Clicked="@HideModal">Cerrar</Button>
+            </ModalFooter>
         </EditForm>
     </ModalContent>
 </Modal>

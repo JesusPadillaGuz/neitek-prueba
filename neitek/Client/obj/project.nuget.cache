@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xA7bV8JjtoPf8cTUYxGsLS+0lsYI+HEj4PPQJFoQ9JOyIAE/tJmpz8DxF5LfP60knVam37OmzduNt2+z0XUJOg==",
+  "dgSpecHash": "EeVzj/Fomd25GfhI5a/mq2cjv77Po8md3jjlZOKo9Hx1xCt5njKU1zQaHaMsy+LKUNG6jJtJLIm04Ym4luNhZA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Usuario\\source\\repos\\neitek\\neitek\\Client\\neitek.Client.csproj",
+  "projectFilePath": "C:\\Users\\Usuario\\source\\repos\\Neitek\\neitek\\Client\\neitek.Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Usuario\\.nuget\\packages\\blazorise\\0.9.5.5\\blazorise.0.9.5.5.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\blazorise.bootstrap5\\0.9.5.5\\blazorise.bootstrap5.0.9.5.5.nupkg.sha512",
@@ -31,6 +31,7 @@
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.jsinterop\\5.0.13\\microsoft.jsinterop.5.0.13.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.jsinterop.webassembly\\5.0.13\\microsoft.jsinterop.webassembly.5.0.13.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\system.net.http.json\\5.0.0\\system.net.http.json.5.0.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.netcore.app.runtime.browser-wasm\\5.0.13\\microsoft.netcore.app.runtime.browser-wasm.5.0.13.nupkg.sha512"

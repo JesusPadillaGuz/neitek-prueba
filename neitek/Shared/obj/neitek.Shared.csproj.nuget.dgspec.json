@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\source\\repos\\neitek\\neitek\\Shared\\neitek.Shared.csproj": {}
+    "C:\\Users\\Usuario\\source\\repos\\Neitek\\neitek\\Shared\\neitek.Shared.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\source\\repos\\neitek\\neitek\\Shared\\neitek.Shared.csproj": {
+    "C:\\Users\\Usuario\\source\\repos\\Neitek\\neitek\\Shared\\neitek.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\source\\repos\\neitek\\neitek\\Shared\\neitek.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\source\\repos\\Neitek\\neitek\\Shared\\neitek.Shared.csproj",
         "projectName": "neitek.Shared",
-        "projectPath": "C:\\Users\\Usuario\\source\\repos\\neitek\\neitek\\Shared\\neitek.Shared.csproj",
+        "projectPath": "C:\\Users\\Usuario\\source\\repos\\Neitek\\neitek\\Shared\\neitek.Shared.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\source\\repos\\neitek\\neitek\\Shared\\obj\\",
+        "outputPath": "C:\\Users\\Usuario\\source\\repos\\Neitek\\neitek\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -41,8 +41,15 @@ namespace neitek.Server.Controllers
             {
               var completadas = (from tarea in meta.Tareas where tarea.Status == true select tarea).Count();
               var todas = (from tarea in meta.Tareas select tarea).Count();
-              double porcentaje = (double)completadas/todas;
-                dictionario.Add(meta.ID, (int)(porcentaje * 100));
+                if (todas > 0)
+                {
+                    double porcentaje = (double)completadas / todas;
+                    dictionario.Add(meta.ID, (int)(porcentaje * 100));
+                }
+                else
+                {
+                    dictionario.Add(meta.ID, 0);
+                }
             }
             //.Select(group => new { METAID = group.Key, Tareas = group })
             //.ToList();
@@ -64,24 +71,24 @@ namespace neitek.Server.Controllers
         [HttpPost]
         public async Task<Respuesta> Post(Metas meta)
         {
-            await context.AddAsync(meta);
-            var response = await context.SaveChangesAsync();
-            if (response>0)
+            var metaExist = await context.Metas.AnyAsync(x => x.Nombre == meta.Nombre);
+            var response = 0;
+            if (!metaExist)
             {
+                await context.AddAsync(meta);
+
+                 response = await context.SaveChangesAsync();
                 return new Respuesta
                 {
                     success = true,
                     message = "la meta fue agregada correctamente."
                 };
             }
-            else
-            {
                 return new Respuesta
                 {
                     success = false,
                     message = "no se pudo agregar la meta."
                 };
-            }
         }
 
         // PUT api/Metas/5

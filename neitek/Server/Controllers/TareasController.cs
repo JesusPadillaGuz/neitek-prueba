@@ -40,24 +40,24 @@ namespace neitek.Server.Controllers
         [HttpPost]
         public async Task<Respuesta> Post(Tareas tarea)
         {
-            await context.AddAsync(tarea);
-            var response = await context.SaveChangesAsync();
-            if (response > 0)
+            var tareaExist = await context.Tareas.AnyAsync(x => x.Nombre == tarea.Nombre);
+            var response = 0;
+            if (!tareaExist)
             {
+                await context.AddAsync(tarea);
+
+                response = await context.SaveChangesAsync();
                 return new Respuesta
                 {
                     success = true,
                     message = "la tarea fue agregada correctamente."
                 };
             }
-            else
+            return new Respuesta
             {
-                return new Respuesta
-                {
-                    success = false,
-                    message = "no se pudo agregar la meta."
-                };
-            }
+                success = false,
+                message = "no se pudo agregar la tarea."
+            };
         }
 
         // PUT api/Tareas/5
@@ -107,6 +107,45 @@ namespace neitek.Server.Controllers
                 {
                     var tar = context.Tareas.Where(x => x.ID == id).FirstOrDefault();
                     tar.Status = true;
+                    context.Tareas.Update(tar);
+                    await context.SaveChangesAsync();
+                    return new Respuesta
+                    {
+                        success = true,
+                        message = "tarea editada exitosamente."
+                    };
+                }
+                else
+                {
+                    return new Respuesta
+                    {
+                        success = false,
+                        message = "no existe la tarea."
+                    };
+                }
+
+            }
+            catch (Exception e)
+            {
+                return new Respuesta
+                {
+                    success = false,
+                    message = "falló el intentar agregar la tarea."
+                };
+            }
+
+        }
+
+        // PUT api/Tareas/5
+        [HttpPut("Importante/{id}")]
+        public async Task<Respuesta> ImportanteTarea(int id, Tareas tarea)
+        {
+            try
+            {
+                if (context.Tareas.Any(x => x.ID == id))
+                {
+                    var tar = context.Tareas.Where(x => x.ID == id).FirstOrDefault();
+                    tar.Importante = !tar.Importante;
                     context.Tareas.Update(tar);
                     await context.SaveChangesAsync();
                     return new Respuesta

@@ -1,6 +1,8 @@
 ﻿using Blazorise;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using neitek.Shared.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +16,8 @@ namespace neitek.Client.Pages
     {
         [Inject]
         public Tareas tareas { get; set; }
-        public List<Tareas> listaTareas { get; set; }
-        public List<Tareas> filterTareas { get; set; }
+        public List<Tareas> listaTareas { get; set; } = new List<Tareas>();
+        public List<Tareas> filterTareas { get; set; } = new List<Tareas>();
         [Inject]
         public HttpClient httpclient { get; set; } = new HttpClient();
         public string TitlePage { get; set; }
@@ -33,22 +35,14 @@ namespace neitek.Client.Pages
         public Tareas eliminarTareaModal { get; set; } = new Tareas();
         public List<int> tareasAEliminar { get; set; } = new List<int>();
         public Tareas emptyTareas { get; set; } = new Tareas();
-
+        public List<bool> checkTareas { get; set; } = new List<bool>();
         public string titleModal { get; set; }
-        protected override async Task OnInitializedAsync()
-        {
-            if (metaSeleccionada > 0)
-            {
-                //var data = await httpclient.GetFromJsonAsync<IEnumerable<Tareas>>("api/Tareas/"+ metaSeleccionada);
-                var data = await httpclient.GetFromJsonAsync<IEnumerable<Tareas>>($"/api/Tareas/{metaSeleccionada}");
-                if (data != null)
-                {
-                    listaTareas = data.ToList();
-                    filterTareas = listaTareas;
-                }
-                TitlePage = "Tareas";
-            }
-        }
+        [Parameter]
+        public EventCallback<string> OnClickCallback { get; set; }
+        [Inject]
+        IJSRuntime JsRuntime { get; set; }
+
+       
         protected override async Task OnParametersSetAsync()
         {
             if (metaSeleccionada > 0)
@@ -59,6 +53,9 @@ namespace neitek.Client.Pages
                 {
                     listaTareas = data.ToList();
                     filterTareas = listaTareas;
+                    //tareasAEliminar = new List<int>();
+                    checkTareas.Clear();
+                    checkTareas.AddRange(new List<bool>(new bool[listaTareas.Count()]));
                 }
                 TitlePage = "Tareas";
             }
@@ -98,6 +95,14 @@ namespace neitek.Client.Pages
             if (tareasModal.ID == 0)
             {
                 var insertar = await httpclient.PostAsJsonAsync("/api/Tareas/", tareaNueva);
+                var respuesta = insertar.Content.ReadAsStringAsync().Result;
+
+                dynamic json = JsonConvert.DeserializeObject(respuesta);
+                if (json["success"] == "false")
+                {
+                    await JsRuntime.InvokeVoidAsync("alert", "Las Tareas no admiten nombres repetidos.");
+
+                }
             }
             else
             {
@@ -106,8 +111,11 @@ namespace neitek.Client.Pages
            
             listaTareas = await httpclient.GetFromJsonAsync<List<Tareas>>($"/api/Tareas/{metaSeleccionada}");
             filterTareas = listaTareas;
+            checkTareas.Clear();
+            checkTareas.AddRange(new List<bool>(new bool[listaTareas.Count()]));
             StateHasChanged();
             await ModalTareaNueva.Hide();
+            await OnClickCallback.InvokeAsync();
         }
 
         protected void deleteTareasID(int id)
@@ -131,23 +139,40 @@ namespace neitek.Client.Pages
             tareasAEliminar.Clear();
             listaTareas = await httpclient.GetFromJsonAsync<List<Tareas>>($"/api/Tareas/{metaSeleccionada}");
             filterTareas = listaTareas;
+            checkTareas.Clear();
+            checkTareas.AddRange(new List<bool>(new bool[listaTareas.Count()]));
             StateHasChanged();
             await ModalEliminarTarea.Hide();
+            await OnClickCallback.InvokeAsync();
         }
 
         protected async void CompletarTareas()
         {
+
             foreach (var tareaID in tareasAEliminar)
             {
                 //await httpclient.DeleteAsync($"/api/Tareas/{tareaID}");
-                var editar = await httpclient.PutAsJsonAsync($"/api/Tareas/Completar/{tareaID}", new Tareas());
+                var editar = await httpclient.PutAsJsonAsync($"/api/Tareas/Completar/{tareaID}", new Tareas { Nombre="edit"});
             }
             tareasAEliminar.Clear();
             listaTareas = await httpclient.GetFromJsonAsync<List<Tareas>>($"/api/Tareas/{metaSeleccionada}");
             filterTareas = listaTareas;
-            
+            checkTareas.Clear();
+            checkTareas.AddRange(new List<bool>(new bool[listaTareas.Count()]));
+
             StateHasChanged();
             await ModalEliminarTarea.Hide();
+            await OnClickCallback.InvokeAsync();
+        }
+
+        protected async void ImportanteTarea(int tareaID)
+        {
+                //await httpclient.DeleteAsync($"/api/Tareas/{tareaID}");
+                var editar = await httpclient.PutAsJsonAsync($"/api/Tareas/Importante/{tareaID}", new Tareas { Nombre = "edit" });
+          var tarea =  filterTareas.Select(x => x).Where(y => y.ID == tareaID).FirstOrDefault();
+            tarea.Importante = !tarea.Importante;
+            StateHasChanged();
+
         }
 
         protected void FilterByTask(string InputValue)
@@ -178,7 +203,7 @@ namespace neitek.Client.Pages
 
             else if (abierta.Contains(InputValue.ToLower()))
             {
-                filterTareas = listaTareas.Where(x => x.Status == true).ToList();
+                filterTareas = listaTareas.Where(x => x.Status == false).ToList();
             }
 
         }
